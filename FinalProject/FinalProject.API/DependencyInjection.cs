@@ -1,22 +1,18 @@
-﻿namespace FinalProject.API
+﻿namespace Microsoft.Extensions.DependencyInjection
+
 {
-    public class DependencyInjection
+    public static class ConfigureServices
     {
-        private readonly WebApplicationBuilder builder;
-
-        public DependencyInjection(WebApplicationBuilder builder)
-        {
-            this.builder = builder;
-        }
-
-        public void AddServices()
+        public static IServiceCollection AddAPIServices(this IServiceCollection services)
         {
             // Add services to the container.
-            builder.Services.AddControllers();
+            services.AddControllers();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
+
+            return services;
         }
     }
 }

@@ -1,9 +1,10 @@
-using FinalProject.API;
+using FinalProject.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var dependencyService = new DependencyInjection(builder);
-dependencyService.AddServices();
+//Add api services (extension)
+builder.Services.AddAPIServices();
+builder.Services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
 
