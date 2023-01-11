@@ -1,6 +1,7 @@
 ﻿using FinalProject.Application.Common.Interfaces;
 using FinalProject.Infrastructure.Context;
 using FinalProject.Infrastructure.Identity;
+using FinalProject.Infrastructure.Identity.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,9 +18,10 @@ namespace FinalProject.Infrastructure
             {
                 options.UseSqlServer(configuration.GetConnectionString("Default"),
                 builder => builder.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName));
-
             });
 
+            services.Configure<ITokenSettings>(options => configuration.GetSection("TokenSettings"));
+            services.AddTransient<ITokenService, TokenService>();
             services.AddScoped<AppDbContextInitializer>();
             services.AddTransient<IAuthorizationManager, AuthorizationManager>();
 

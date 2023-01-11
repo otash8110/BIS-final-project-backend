@@ -1,5 +1,6 @@
 ﻿using FinalProject.Application.Common.Interfaces;
 using FinalProject.Core.Enums;
+using FinalProject.Infrastructure.Identity.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
 namespace FinalProject.Infrastructure.Identity
@@ -7,9 +8,12 @@ namespace FinalProject.Infrastructure.Identity
     public class AuthorizationManager : IAuthorizationManager
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ITokenService tokenService;
 
-        public AuthorizationManager(UserManager<ApplicationUser> userManager) { 
+        public AuthorizationManager(UserManager<ApplicationUser> userManager,
+            ITokenService tokenService) { 
             this.userManager = userManager;
+            this.tokenService = tokenService;
         }
 
         public async Task<bool> CreateUserAsync(string email,
@@ -36,6 +40,32 @@ namespace FinalProject.Infrastructure.Identity
             await userManager.AddToRolesAsync(appUser, roles);
 
             return savedAppUser.Succeeded;
+        }
+
+        public async Task<string> LoginAsync(string email, string password)
+        {
+            try
+            {
+                var appUser = await userManager.FindByEmailAsync(email);
+
+
+                if (appUser != null & await userManager.CheckPasswordAsync(appUser, password))
+                {
+                    var userRoles = await userManager.GetRolesAsync(appUser);
+                    var token = tokenService.CreateUserToken(appUser, userRoles);
+                    
+                    return token;
+                }
+                else
+                {
+                    throw new UnauthorizedAccessException("User not found or password is not correct");
+                }
+            }
+            catch (Exception)
+            {
+                throw new UnauthorizedAccessException("User not found or password is not correct");
+            }
+
         }
     }
 }
