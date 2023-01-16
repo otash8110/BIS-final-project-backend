@@ -9,9 +9,9 @@ namespace FinalProject.Infrastructure.Identity
 {
     public class TokenService: ITokenService
     {
-        private readonly ITokenSettings tokenSettings;
+        private readonly TokenSettings tokenSettings;
 
-        public TokenService(IOptions<ITokenSettings> tokenSettings)
+        public TokenService(IOptions<TokenSettings> tokenSettings)
         {
             this.tokenSettings = tokenSettings.Value;
         }

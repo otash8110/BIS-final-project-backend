@@ -20,7 +20,7 @@ namespace FinalProject.Infrastructure
                 builder => builder.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName));
             });
 
-            services.Configure<ITokenSettings>(options => configuration.GetSection("TokenSettings"));
+            services.Configure<TokenSettings>(configuration.GetSection("TokenSettings"));
             services.AddTransient<ITokenService, TokenService>();
             services.AddScoped<AppDbContextInitializer>();
             services.AddTransient<IAuthorizationManager, AuthorizationManager>();

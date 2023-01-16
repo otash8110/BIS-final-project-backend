@@ -1,4 +1,5 @@
 ﻿using FinalProject.Application.Common.Interfaces;
+using FinalProject.Infrastructure.AppUser.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject.API.Controllers
@@ -14,10 +15,19 @@ namespace FinalProject.API.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> LoginAsync([FromBody] LoginDTO loginData)
+        public async Task<IActionResult> LoginAsync([FromBody] LoginUserQuery loginData)
         {
-            var result = await _authorizationManager.LoginAsync(loginData.Email, loginData.Password);
-            return Ok(result);
+            try
+            {
+                var result = await _authorizationManager.LoginAsync(loginData.Email, loginData.Password);
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
     }
 }
