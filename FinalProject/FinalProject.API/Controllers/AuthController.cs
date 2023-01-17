@@ -1,6 +1,8 @@
 ﻿using FinalProject.Application.Common.Interfaces;
 using FinalProject.Infrastructure.AppUser.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace FinalProject.API.Controllers
 {
@@ -8,10 +10,12 @@ namespace FinalProject.API.Controllers
     [Route("api/v1/[controller]")]
     public class AuthController : Controller
     {
-        private readonly IAuthorizationManager _authorizationManager;
-        public AuthController(IAuthorizationManager authorizationManager)
+        private readonly IAuthorizationManager authorizationManager;
+        private readonly IHubContext<SignalHub> hubContext;
+        public AuthController(IAuthorizationManager authorizationManager, IHubContext<SignalHub> hubContext)
         {
-            _authorizationManager = authorizationManager ?? throw new ArgumentNullException(nameof(authorizationManager));
+            this.authorizationManager = authorizationManager ?? throw new ArgumentNullException(nameof(authorizationManager));
+            this.hubContext = hubContext;
         }
 
         [HttpPost("Login")]
@@ -19,7 +23,7 @@ namespace FinalProject.API.Controllers
         {
             try
             {
-                var result = await _authorizationManager.LoginAsync(loginData.Email, loginData.Password);
+                var result = await authorizationManager.LoginAsync(loginData.Email, loginData.Password);
                 return Ok(result);
             }
             catch (Exception)
@@ -28,6 +32,14 @@ namespace FinalProject.API.Controllers
                 throw;
             }
             
+        }
+
+        [Authorize]
+        [HttpGet("Test")]
+        public async Task<IActionResult> Test()
+        {
+            await hubContext.Clients.All.SendAsync("ReceiveMessage");
+            return Ok();
         }
     }
 }

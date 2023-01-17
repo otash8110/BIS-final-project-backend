@@ -6,7 +6,7 @@ using FinalProject.API;
 var builder = WebApplication.CreateBuilder(args);
 
 //Add api services (extension)
-builder.Services.AddAPIServices();
+builder.Services.AddAPIServices(builder.Configuration);
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 
@@ -28,8 +28,13 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
+app.UseCors();
 app.MapControllers();
-app.MapHub<SignalHub>("/demoHub");
+app.MapHub<SignalHub>("/hub/demohub", options =>
+{
+    options.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
+});
 
 app.Run();
