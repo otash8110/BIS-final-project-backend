@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Identity;
 
 namespace FinalProject.Infrastructure.Identity
 {
-    public class AuthorizationManager : IAuthorizationManager
+    public class UserService : IUserSercive
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ITokenService tokenService;
 
-        public AuthorizationManager(UserManager<ApplicationUser> userManager,
+        public UserService(UserManager<ApplicationUser> userManager,
             ITokenService tokenService) { 
             this.userManager = userManager;
             this.tokenService = tokenService;

@@ -1,5 +1,4 @@
-﻿using FinalProject.Core.Entities;
-using FinalProject.Infrastructure.Identity;
+﻿using FinalProject.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,8 +11,6 @@ namespace FinalProject.Infrastructure.Context
         {
 
         }
-
-        public DbSet<Manufacturer> Manufacturers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
