@@ -3,7 +3,7 @@ using FinalProject.Core.Enums;
 
 namespace FinalProject.Application.Common.Interfaces
 {
-    public interface IUserSercive
+    public interface IUserService
     {
         Task<bool> CreateUserAsync(string email,
             string name,

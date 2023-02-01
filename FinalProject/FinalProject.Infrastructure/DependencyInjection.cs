@@ -23,7 +23,7 @@ namespace FinalProject.Infrastructure
             services.Configure<TokenSettings>(configuration.GetSection("TokenSettings"));
             services.AddTransient<ITokenService, TokenService>();
             services.AddScoped<AppDbContextInitializer>();
-            services.AddTransient<IUserSercive, UserService>();
+            services.AddTransient<IUserService, UserService>();
 
             services
             .AddIdentityCore<ApplicationUser>()

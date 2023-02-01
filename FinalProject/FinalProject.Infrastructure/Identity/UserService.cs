@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace FinalProject.Infrastructure.Identity
 {
-    public class UserService : IUserSercive
+    public class UserService : IUserService
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ITokenService tokenService;

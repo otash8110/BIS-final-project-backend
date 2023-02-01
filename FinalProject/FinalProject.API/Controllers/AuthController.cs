@@ -13,12 +13,12 @@ namespace FinalProject.API.Controllers
     [Route("api/v1/[controller]")]
     public class AuthController : Controller
     {
-        private readonly IUserSercive authorizationManager;
+        private readonly IUserService authorizationManager;
         private readonly IHubContext<SignalHub> hubContext;
         private readonly IMediator mediator;
         private readonly IConfiguration configuration;
 
-        public AuthController(IUserSercive authorizationManager, IHubContext<SignalHub> hubContext, IMediator mediator, IConfiguration configuration)
+        public AuthController(IUserService authorizationManager, IHubContext<SignalHub> hubContext, IMediator mediator, IConfiguration configuration)
         {
             this.authorizationManager = authorizationManager ?? throw new ArgumentNullException(nameof(authorizationManager));
             this.hubContext = hubContext;
