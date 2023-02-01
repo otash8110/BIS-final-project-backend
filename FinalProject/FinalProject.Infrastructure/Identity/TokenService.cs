@@ -22,7 +22,7 @@ namespace FinalProject.Infrastructure.Identity
                         {
                             new Claim(ClaimTypes.Email, user.Email),
                             new Claim(ClaimTypes.Name, user.UserName),
-                            new Claim("UserId", user.UserId.ToString()),
+                            new Claim("UserId", user.Id),
                         };
 
             foreach (var userRole in userRoles)

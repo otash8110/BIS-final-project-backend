@@ -1,5 +1,8 @@
-﻿using FinalProject.Application.Common.Interfaces;
-using FinalProject.Infrastructure.AppUser.Queries;
+﻿using Azure.Core;
+using FinalProject.Application.Common.DTOs;
+using FinalProject.Application.Common.Interfaces;
+using FinalProject.Core.Enums;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -12,14 +15,19 @@ namespace FinalProject.API.Controllers
     {
         private readonly IAuthorizationManager authorizationManager;
         private readonly IHubContext<SignalHub> hubContext;
-        public AuthController(IAuthorizationManager authorizationManager, IHubContext<SignalHub> hubContext)
+        private readonly IMediator mediator;
+        private readonly IConfiguration configuration;
+
+        public AuthController(IAuthorizationManager authorizationManager, IHubContext<SignalHub> hubContext, IMediator mediator, IConfiguration configuration)
         {
             this.authorizationManager = authorizationManager ?? throw new ArgumentNullException(nameof(authorizationManager));
             this.hubContext = hubContext;
+            this.mediator = mediator;
+            this.configuration = configuration;
         }
 
         [HttpPost("Login")]
-        public async Task<IActionResult> LoginAsync([FromBody] LoginUserQuery loginData)
+        public async Task<IActionResult> LoginAsync([FromBody] LoginUser loginData)
         {
             try
             {
@@ -28,10 +36,24 @@ namespace FinalProject.API.Controllers
             }
             catch (Exception)
             {
-
                 throw;
             }
-            
+        }
+
+        [HttpPost("Register")]
+        public async Task<IActionResult> RegisterAsync([FromBody] RegisterUser registerData, CancellationToken cancellationToken)
+        {
+            try
+            {
+                Enum.TryParse<Roles>(registerData.Role, out var role);
+                var result = await authorizationManager.CreateUserAsync(registerData.Email, registerData.Name, registerData.Surname, registerData.Password, role);
+                await hubContext.Clients.Group(configuration["AdminsGroup"]).SendAsync("RegistrationRequest", registerData.Email);
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         [Authorize]

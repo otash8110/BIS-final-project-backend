@@ -1,11 +1,16 @@
-﻿using FinalProject.Core.Enums;
+﻿using FinalProject.Application.Common.Results;
+using FinalProject.Core.Enums;
 
 namespace FinalProject.Application.Common.Interfaces
 {
     public interface IAuthorizationManager
     {
-        Task<bool> CreateUserAsync(string email, string password, Roles role, int userId);
+        Task<bool> CreateUserAsync(string email,
+            string name,
+            string surname,
+            string password,
+            Roles role);
 
-        Task<string> LoginAsync(string email, string password);
+        Task<LoginResult> LoginAsync(string email, string password);
     }
 }

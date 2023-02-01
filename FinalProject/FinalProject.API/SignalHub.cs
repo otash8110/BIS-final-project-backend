@@ -1,25 +1,50 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using System.Security.Claims;
 
 namespace FinalProject.API
 {
+    [Authorize]
     public class SignalHub: Hub
     {
-        public override Task OnConnectedAsync()
+        private string userGroupName;
+        private string adminGroupName;
+
+        public SignalHub(IConfiguration configuration)
         {
+            userGroupName = configuration["UsersGroup"];
+            adminGroupName = configuration["AdminsGroup"];
+        }
+
+        public override async Task<Task> OnConnectedAsync()
+        {
+            var identity = (ClaimsIdentity)Context.User.Identity;
+            var role = identity.FindFirst(ClaimTypes.Role).Value;
+
+            switch (role)
+            {
+                case "User":
+                    await AddToUsersGroup(Context.ConnectionId);
+                    break;
+                case "Admin":
+                    await AddToAdminsGroup(Context.ConnectionId);
+                    break;
+            }
+
             return base.OnConnectedAsync();
         }
 
-        [Authorize]
         public async Task SendMessage(string msg)
         => await Clients.All.SendAsync("send", msg);
-    }
 
-    public class User
-    {
+        private async Task AddToUsersGroup(string connectionId)
+        {
+            await Groups.AddToGroupAsync(connectionId, userGroupName);
+        }
 
-        public string Name { get; set; }
-        public HashSet<string> ConnectionIds { get; set; }
+        private async Task AddToAdminsGroup(string connectionId)
+        {
+            await Groups.AddToGroupAsync(connectionId, adminGroupName);
+        }
     }
 }

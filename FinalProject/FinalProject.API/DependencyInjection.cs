@@ -40,7 +40,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
                         var path = context.HttpContext.Request.Path;
                         if (!string.IsNullOrEmpty(accessToken) &&
-                            (path.StartsWithSegments("/hub/demohub")))
+                            (path.StartsWithSegments("/demohub")))
                         {
                             // Read the token out of the query string
                             context.Token = accessToken;
@@ -63,16 +63,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
 
-            services.AddCors(opt =>
-            {
-                opt.AddDefaultPolicy(policy =>
-                {
-                    policy
-                    .AllowAnyOrigin()
-                      .AllowAnyMethod()
-                      .AllowAnyHeader();
-                });
-            });
+            services.AddCors();
 
             services.AddSignalR();
 

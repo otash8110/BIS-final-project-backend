@@ -1,4 +1,5 @@
 ﻿using FinalProject.Application.Common.Interfaces;
+using FinalProject.Application.Common.Results;
 using FinalProject.Core.Enums;
 using FinalProject.Infrastructure.Identity.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -17,15 +18,15 @@ namespace FinalProject.Infrastructure.Identity
         }
 
         public async Task<bool> CreateUserAsync(string email,
+            string name,
+            string surname,
             string password,
-            Roles role,
-            int userId)
+            Roles role)
         {
             var appUser = new ApplicationUser
             {
                 UserName = email,
                 Email = email,
-                UserId= userId,
                 IsRegistrationApproved = false
             };
 
@@ -42,7 +43,7 @@ namespace FinalProject.Infrastructure.Identity
             return savedAppUser.Succeeded;
         }
 
-        public async Task<string> LoginAsync(string email, string password)
+        public async Task<LoginResult> LoginAsync(string email, string password)
         {
             try
             {
@@ -54,7 +55,11 @@ namespace FinalProject.Infrastructure.Identity
                     var userRoles = await userManager.GetRolesAsync(appUser);
                     var token = tokenService.CreateUserToken(appUser, userRoles);
                     
-                    return token;
+                    return new LoginResult()
+                    {
+                        AccessToken= token,
+                        IsRegistrationApproved = appUser.IsRegistrationApproved,
+                    };
                 }
                 else
                 {
@@ -65,7 +70,6 @@ namespace FinalProject.Infrastructure.Identity
             {
                 throw new UnauthorizedAccessException("User not found or password is not correct");
             }
-
         }
     }
 }

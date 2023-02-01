@@ -30,9 +30,14 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseAuthentication();
 
-app.UseCors();
+app.UseCors(builder =>
+{
+    builder.WithOrigins(new string[] { "http://localhost:5173", "http://localhost:8080" });
+    builder.AllowAnyHeader();
+    builder.AllowCredentials();
+});
 app.MapControllers();
-app.MapHub<SignalHub>("/hub/demohub", options =>
+app.MapHub<SignalHub>("/demohub", options =>
 {
     options.Transports = Microsoft.AspNetCore.Http.Connections.HttpTransportType.WebSockets;
 });
