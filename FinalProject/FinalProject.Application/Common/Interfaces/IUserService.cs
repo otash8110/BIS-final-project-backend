@@ -14,6 +14,6 @@ namespace FinalProject.Application.Common.Interfaces
 
         Task<LoginResult> LoginAsync(string email, string password);
 
-        Task<List<NotRegisteredUserResult>> GetUnregisteredUsers();
+        Task<List<NotRegisteredUserResult>> GetUnregisteredUsers(CancellationToken token);
     }
 }

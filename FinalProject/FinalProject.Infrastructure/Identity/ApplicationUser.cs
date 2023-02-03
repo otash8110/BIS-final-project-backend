@@ -1,5 +1,6 @@
 ﻿using FinalProject.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinalProject.Infrastructure.Identity
 {
@@ -9,6 +10,8 @@ namespace FinalProject.Infrastructure.Identity
         public string Name { get; set; }
         public string Surname { get; set; }
         public string CompanyName { get; set; }
-        public string Role { get; set; }
+
+        [NotMapped]
+        public IList<string> Role { get; set; }
     }
 }

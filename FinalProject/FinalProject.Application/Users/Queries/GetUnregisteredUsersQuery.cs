@@ -17,7 +17,7 @@ namespace FinalProject.Application.Users.Queries
 
         public async Task<UnregisteredUserResult> Handle(GetUnregisteredUsersQuery request, CancellationToken cancellationToken)
         {
-            var users = await Task.Run(() => userService.GetUnregisteredUsers());
+            var users = await Task.Run(() => userService.GetUnregisteredUsers(cancellationToken));
             var result = new UnregisteredUserResult()
             {
                 Data = users

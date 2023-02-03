@@ -19,9 +19,9 @@ namespace FinalProject.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> UnregisteredUsers()
+        public async Task<IActionResult> UnregisteredUsers(CancellationToken token)
         {
-            var result = await mediator.Send(new GetUnregisteredUsersQuery());
+            var result = await mediator.Send(new GetUnregisteredUsersQuery(), token);
             return Ok(result);
         } 
 

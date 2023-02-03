@@ -52,9 +52,14 @@ namespace FinalProject.Infrastructure.Identity
             return savedAppUser.Succeeded;
         }
 
-        public async Task<List<NotRegisteredUserResult>> GetUnregisteredUsers()
+        public async Task<List<NotRegisteredUserResult>> GetUnregisteredUsers(CancellationToken cancellationToken)
         {
-            var result = await userManager.Users.Where(user => user.IsRegistrationApproved != true).ToListAsync();
+            var result = await userManager.Users.Where(user => user.IsRegistrationApproved != true)
+                .ToListAsync();
+            result.ForEach(async item =>
+            {
+                item.Role = await userManager.GetRolesAsync(item);
+            });
             var users = mapper.Map<List<NotRegisteredUserResult>>(result);
             return users;
         }
