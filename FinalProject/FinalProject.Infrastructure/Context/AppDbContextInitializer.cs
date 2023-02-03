@@ -61,7 +61,7 @@ namespace FinalProject.Infrastructure.Context
                 await roleManager.CreateAsync(distributorRole);
             }
 
-            var administrator = new ApplicationUser { UserName = "administrator@localhost", Email = "administrator@localhost" };
+            var administrator = new ApplicationUser { UserName = "administrator@localhost", Email = "administrator@localhost", IsRegistrationApproved = true };
 
             if (userManager.Users.All(u => u.UserName != administrator.UserName))
             {

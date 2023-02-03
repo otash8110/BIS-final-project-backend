@@ -27,15 +27,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-app.UseAuthentication();
+app.UseCors("DefaultPolicy");
 
-app.UseCors(builder =>
-{
-    builder.WithOrigins(new string[] { "http://localhost:5173", "http://localhost:8080" });
-    builder.AllowAnyHeader();
-    builder.AllowCredentials();
-});
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllers();
 app.MapHub<SignalHub>("/demohub", options =>
 {

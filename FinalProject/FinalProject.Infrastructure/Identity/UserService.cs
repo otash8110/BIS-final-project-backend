@@ -1,8 +1,12 @@
-﻿using FinalProject.Application.Common.Interfaces;
+﻿using AutoMapper;
+using AutoMapper.Execution;
+using FinalProject.Application.Common.Interfaces;
 using FinalProject.Application.Common.Results;
+using FinalProject.Application.Users.Queries;
 using FinalProject.Core.Enums;
 using FinalProject.Infrastructure.Identity.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinalProject.Infrastructure.Identity
 {
@@ -10,11 +14,14 @@ namespace FinalProject.Infrastructure.Identity
     {
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ITokenService tokenService;
+        private readonly IMapper mapper;
 
         public UserService(UserManager<ApplicationUser> userManager,
-            ITokenService tokenService) { 
+            ITokenService tokenService,
+            IMapper mapper) { 
             this.userManager = userManager;
             this.tokenService = tokenService;
+            this.mapper = mapper;
         }
 
         public async Task<bool> CreateUserAsync(string email,
@@ -27,6 +34,8 @@ namespace FinalProject.Infrastructure.Identity
             {
                 UserName = email,
                 Email = email,
+                Name = name,
+                Surname = surname,
                 IsRegistrationApproved = false
             };
 
@@ -41,6 +50,13 @@ namespace FinalProject.Infrastructure.Identity
             await userManager.AddToRolesAsync(appUser, roles);
 
             return savedAppUser.Succeeded;
+        }
+
+        public async Task<List<NotRegisteredUserResult>> GetUnregisteredUsers()
+        {
+            var result = await userManager.Users.Where(user => user.IsRegistrationApproved != true).ToListAsync();
+            var users = mapper.Map<List<NotRegisteredUserResult>>(result);
+            return users;
         }
 
         public async Task<LoginResult> LoginAsync(string email, string password)

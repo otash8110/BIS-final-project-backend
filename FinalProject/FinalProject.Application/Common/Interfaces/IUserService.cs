@@ -1,4 +1,5 @@
 ﻿using FinalProject.Application.Common.Results;
+using FinalProject.Application.Users.Queries;
 using FinalProject.Core.Enums;
 
 namespace FinalProject.Application.Common.Interfaces
@@ -12,5 +13,7 @@ namespace FinalProject.Application.Common.Interfaces
             Roles role);
 
         Task<LoginResult> LoginAsync(string email, string password);
+
+        Task<List<NotRegisteredUserResult>> GetUnregisteredUsers();
     }
 }
