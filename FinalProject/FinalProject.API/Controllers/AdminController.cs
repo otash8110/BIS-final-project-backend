@@ -1,8 +1,8 @@
 ﻿using FinalProject.Application.Users.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace FinalProject.API.Controllers
 {
@@ -12,10 +12,18 @@ namespace FinalProject.API.Controllers
     public class AdminController : Controller
     {
         private readonly IMediator mediator;
+        private readonly IHubContext<SignalHub> hubContext;
+        private readonly IConfiguration configuration;
 
-        public AdminController(IMediator mediator)
-        { 
+
+        public AdminController(IMediator mediator,
+            IHubContext<SignalHub> hubContext
+,
+            IConfiguration configuration)
+        {
             this.mediator = mediator;
+            this.hubContext = hubContext;
+            this.configuration = configuration;
         }
 
         [HttpGet]
@@ -24,6 +32,5 @@ namespace FinalProject.API.Controllers
             var result = await mediator.Send(new GetUnregisteredUsersQuery(), token);
             return Ok(result);
         } 
-
     }
 }

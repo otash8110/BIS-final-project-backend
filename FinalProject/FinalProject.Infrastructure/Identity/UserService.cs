@@ -56,13 +56,21 @@ namespace FinalProject.Infrastructure.Identity
         {
             var result = await userManager.Users.Where(user => user.IsRegistrationApproved != true)
                 .ToListAsync();
-            
-            // NEVER USE SUCH CODE; IT IS BAAAAAAD
-            result.ForEach(item =>
+
+            var asyncResult = result.Select(async item => new ApplicationUser()
             {
-                item.Role = userManager.GetRolesAsync(item).Result;
+                IsRegistrationApproved = item.IsRegistrationApproved,
+                Name = item.Name,
+                Surname = item.Surname,
+                CompanyName = item.CompanyName,
+                Email = item.Email,
+                Role = await userManager.GetRolesAsync(item)
             });
-            var users = mapper.Map<List<NotRegisteredUserResult>>(result);
+
+            var mainResult = asyncResult.Select(i => i.Result);
+
+
+            var users = mapper.Map<List<NotRegisteredUserResult>>(mainResult);
             return users;
         }
 

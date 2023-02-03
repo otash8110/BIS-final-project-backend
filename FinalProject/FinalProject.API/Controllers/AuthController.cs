@@ -56,11 +56,10 @@ namespace FinalProject.API.Controllers
             }
         }
 
-        [Authorize]
         [HttpGet("Test")]
         public async Task<IActionResult> Test()
         {
-            await hubContext.Clients.All.SendAsync("ReceiveMessage");
+            await hubContext.Clients.Group(configuration["AdminsGroup"]).SendAsync("RegistrationRequest", "TEST EMAIL");
             return Ok();
         }
     }
