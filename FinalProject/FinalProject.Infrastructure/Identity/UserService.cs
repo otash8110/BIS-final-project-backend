@@ -52,7 +52,7 @@ namespace FinalProject.Infrastructure.Identity
             return savedAppUser.Succeeded;
         }
 
-        public async Task<List<NotRegisteredUserResult>> GetUnregisteredUsers(CancellationToken cancellationToken)
+        public async Task<List<NotRegisteredUserResult>> GetUnregisteredUsersAsync(CancellationToken cancellationToken)
         {
             var result = await userManager.Users.Where(user => user.IsRegistrationApproved != true)
                 .ToListAsync();
