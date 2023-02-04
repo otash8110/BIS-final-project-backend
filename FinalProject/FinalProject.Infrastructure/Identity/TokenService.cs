@@ -21,7 +21,7 @@ namespace FinalProject.Infrastructure.Identity
             List<Claim> claims = new List<Claim>
                         {
                             new Claim(ClaimTypes.Email, user.Email),
-                            new Claim(ClaimTypes.NameIdentifier, user.UserName),
+                            new Claim(ClaimTypes.NameIdentifier, user.Email),
                             new Claim("UserId", user.Id),
                         };
 

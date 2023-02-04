@@ -1,4 +1,5 @@
-﻿using FinalProject.Application.Users.Queries;
+﻿using FinalProject.Application.Users.Commands;
+using FinalProject.Application.Users.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -33,11 +34,11 @@ namespace FinalProject.API.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> ApproveUser(string id, CancellationToken token)
+        public async Task<IActionResult> ApproveUser(string email, CancellationToken token)
         {
-            //var result = await mediator.Send(new GetUnregisteredUsersQuery(), token);
-            await hubContext.Clients.User(id).SendAsync("SendToUser", "TEST");
-            return Ok(true);
+            var result = await mediator.Send(new ApproveUserRegistrationCommand(email), token);
+            await hubContext.Clients.User(email).SendAsync("SendToUser", "Your registration was approved");
+            return Ok(result);
         }
     }
 }

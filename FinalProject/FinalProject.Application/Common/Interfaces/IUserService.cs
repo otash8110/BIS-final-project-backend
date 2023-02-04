@@ -16,6 +16,6 @@ namespace FinalProject.Application.Common.Interfaces
 
         Task<List<NotRegisteredUserResult>> GetUnregisteredUsersAsync(CancellationToken token);
 
-        Task<bool> ApproveUserRegistrationAsync(string id, CancellationToken token);
+        Task<bool> ApproveUserRegistrationAsync(string email, CancellationToken token);
     }
 }
