@@ -8,7 +8,6 @@ namespace FinalProject.API.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly IMediator mediator;
@@ -36,8 +35,9 @@ namespace FinalProject.API.Controllers
         [HttpGet("[action]")]
         public async Task<IActionResult> ApproveUser(string id, CancellationToken token)
         {
-            var result = await mediator.Send(new GetUnregisteredUsersQuery(), token);
-            return Ok(result);
+            //var result = await mediator.Send(new GetUnregisteredUsersQuery(), token);
+            await hubContext.Clients.User(id).SendAsync("SendToUser", "TEST");
+            return Ok(true);
         }
     }
 }

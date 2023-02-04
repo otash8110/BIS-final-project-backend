@@ -24,6 +24,16 @@ namespace FinalProject.Infrastructure.Identity
             this.mapper = mapper;
         }
 
+        public async Task<bool> ApproveUserRegistrationAsync(string id, CancellationToken token)
+        {
+            var user = await userManager.FindByIdAsync(id);
+
+            user.IsRegistrationApproved = true;
+            var result = await userManager.UpdateAsync(user);
+
+            return result.Succeeded;
+        }
+
         public async Task<bool> CreateUserAsync(string email,
             string name,
             string surname,

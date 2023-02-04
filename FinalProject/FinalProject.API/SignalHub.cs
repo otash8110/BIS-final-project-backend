@@ -20,6 +20,7 @@ namespace FinalProject.API
         {
             var identity = (ClaimsIdentity)Context.User.Identity;
             var role = identity.FindFirst(ClaimTypes.Role).Value;
+            var email = identity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             switch (role)
             {

@@ -14,9 +14,11 @@ namespace FinalProject.Application.Users.Commands
             this.userService = userService;
         }
 
-        public Task<bool> Handle(ApproveUserRegistrationCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(ApproveUserRegistrationCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var result = await userService.ApproveUserRegistrationAsync(request.id, cancellationToken);
+
+            return result;
         }
     }
 }
