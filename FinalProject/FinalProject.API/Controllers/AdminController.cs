@@ -26,11 +26,18 @@ namespace FinalProject.API.Controllers
             this.configuration = configuration;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> UnregisteredUsers(CancellationToken token)
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetUnregisteredUsers(CancellationToken token)
         {
             var result = await mediator.Send(new GetUnregisteredUsersQuery(), token);
             return Ok(result);
-        } 
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> ApproveUser(string id, CancellationToken token)
+        {
+            var result = await mediator.Send(new GetUnregisteredUsersQuery(), token);
+            return Ok(result);
+        }
     }
 }
