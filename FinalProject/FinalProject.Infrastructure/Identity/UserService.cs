@@ -69,6 +69,7 @@ namespace FinalProject.Infrastructure.Identity
 
             var asyncResult = result.Select(async item => new ApplicationUser()
             {
+                Id = item.Id,
                 IsRegistrationApproved = item.IsRegistrationApproved,
                 Name = item.Name,
                 Surname = item.Surname,

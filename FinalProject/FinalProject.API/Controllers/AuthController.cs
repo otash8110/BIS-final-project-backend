@@ -47,7 +47,7 @@ namespace FinalProject.API.Controllers
             {
                 Enum.TryParse<Roles>(registerData.Role, out var role);
                 var result = await authorizationManager.CreateUserAsync(registerData.Email, registerData.Name, registerData.Surname, registerData.Password, role);
-                await hubContext.Clients.Group(configuration["AdminsGroup"]).SendAsync("RegistrationRequest", registerData.Email);
+                await hubContext.Clients.Group(configuration["AdminsGroup"]).SendAsync("RegistrationRequest", $"New registration request! {registerData.Email}");
                 return Ok(result);
             }
             catch (Exception)
