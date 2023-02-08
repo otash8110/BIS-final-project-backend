@@ -29,6 +29,7 @@ namespace FinalProject.Infrastructure.Identity
         public async Task<bool> ApproveUserRegistrationAsync(string email, CancellationToken token)
         {
             var user = await userManager.FindByEmailAsync(email);
+            if (user == null) throw new UserNotFoundException(email);
 
             user.IsRegistrationApproved = true;
             var result = await userManager.UpdateAsync(user);
