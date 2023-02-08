@@ -91,6 +91,8 @@ namespace FinalProject.Infrastructure.Identity
         {
             var user = await userManager.FindByEmailAsync(email);
             if (user == null) throw new UserNotFoundException(email);
+
+            return mapper.Map<UserDTO>(user);
         }
 
         public async Task<LoginResult> LoginAsync(string email, string password)
