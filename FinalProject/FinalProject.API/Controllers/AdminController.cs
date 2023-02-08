@@ -33,11 +33,11 @@ namespace FinalProject.API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("[action]")]
-        public async Task<IActionResult> ApproveUser(string email, CancellationToken token)
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ApproveUser(ApproveUserRegistrationCommand cmd, CancellationToken token)
         {
-            var result = await mediator.Send(new ApproveUserRegistrationCommand(email), token);
-            await hubContext.Clients.User(email).SendAsync("SendToUser", "Your registration was approved");
+            var result = await mediator.Send(cmd, token);
+            await hubContext.Clients.User(cmd.email).SendAsync("SendToUser", "Your registration was approved");
             return Ok(result);
         }
     }

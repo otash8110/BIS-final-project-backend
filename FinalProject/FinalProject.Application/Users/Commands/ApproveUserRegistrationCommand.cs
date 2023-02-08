@@ -3,7 +3,7 @@ using MediatR;
 
 namespace FinalProject.Application.Users.Commands
 {
-    public record ApproveUserRegistrationCommand(string id) : IRequest<bool>;
+    public record ApproveUserRegistrationCommand(string email) : IRequest<bool>;
 
     public class ApproveUserRegistrationHandler : IRequestHandler<ApproveUserRegistrationCommand, bool>
     {
@@ -16,7 +16,7 @@ namespace FinalProject.Application.Users.Commands
 
         public async Task<bool> Handle(ApproveUserRegistrationCommand request, CancellationToken cancellationToken)
         {
-            var result = await userService.ApproveUserRegistrationAsync(request.id, cancellationToken);
+            var result = await userService.ApproveUserRegistrationAsync(request.email, cancellationToken);
 
             return result;
         }
