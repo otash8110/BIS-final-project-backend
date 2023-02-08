@@ -26,5 +26,11 @@ namespace FinalProject.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateUser()
+        {
+            return Ok();
+        }
     }
 }
