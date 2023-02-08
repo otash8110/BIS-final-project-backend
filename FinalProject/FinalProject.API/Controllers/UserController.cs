@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FinalProject.Application.Users.Queries.GetUser;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FinalProject.API.Controllers
@@ -13,9 +14,17 @@ namespace FinalProject.API.Controllers
         }
 
         [HttpGet("{email}")]
-        public IActionResult GetUser(string email)
+        public async Task<IActionResult> GetUser(string email, CancellationToken cancellationToken)
         {
-            return View();
+            try
+            {
+                var result = await mediator.Send(new GetUserQuery(email), cancellationToken);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
