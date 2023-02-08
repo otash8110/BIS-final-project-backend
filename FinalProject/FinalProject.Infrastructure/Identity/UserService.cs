@@ -5,6 +5,7 @@ using FinalProject.Application.Common.Results;
 using FinalProject.Application.Users.Queries;
 using FinalProject.Application.Users.Queries.GetUser;
 using FinalProject.Core.Enums;
+using FinalProject.Core.Exceptions;
 using FinalProject.Infrastructure.Identity.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -89,6 +90,7 @@ namespace FinalProject.Infrastructure.Identity
         public async Task<UserDTO> GetUser(string email, CancellationToken token)
         {
             var user = await userManager.FindByEmailAsync(email);
+            if (user == null) throw new UserNotFoundException(email);
         }
 
         public async Task<LoginResult> LoginAsync(string email, string password)
