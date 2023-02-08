@@ -3,6 +3,7 @@ using AutoMapper.Execution;
 using FinalProject.Application.Common.Interfaces;
 using FinalProject.Application.Common.Results;
 using FinalProject.Application.Users.Queries;
+using FinalProject.Application.Users.Queries.GetUser;
 using FinalProject.Core.Enums;
 using FinalProject.Infrastructure.Identity.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -83,6 +84,11 @@ namespace FinalProject.Infrastructure.Identity
 
             var users = mapper.Map<List<NotRegisteredUserResult>>(mainResult);
             return users;
+        }
+
+        public async Task<UserDTO> GetUser(string email, CancellationToken token)
+        {
+            var user = await userManager.FindByEmailAsync(email);
         }
 
         public async Task<LoginResult> LoginAsync(string email, string password)
