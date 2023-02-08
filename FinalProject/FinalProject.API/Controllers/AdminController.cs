@@ -36,9 +36,17 @@ namespace FinalProject.API.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> ApproveUser(ApproveUserRegistrationCommand cmd, CancellationToken token)
         {
-            var result = await mediator.Send(cmd, token);
-            await hubContext.Clients.User(cmd.email).SendAsync("SendToUser", "Your registration was approved");
-            return Ok(result);
+            try
+            {
+                var result = await mediator.Send(cmd, token);
+                await hubContext.Clients.User(cmd.email).SendAsync("UserRegistrationApproveNotification", "Your registration was approved");
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
         }
     }
 }
