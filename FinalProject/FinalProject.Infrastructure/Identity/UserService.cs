@@ -124,5 +124,18 @@ namespace FinalProject.Infrastructure.Identity
                 throw new UnauthorizedAccessException("User not found or password is not correct");
             }
         }
+
+        public async Task UpdateUser(string email, string name, string surname, string companyName, CancellationToken token)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+
+            if(user == null) throw new UserNotFoundException(email);
+
+            user.Name = name;
+            user.Surname = surname;
+            user.CompanyName = companyName;
+
+            await userManager.UpdateAsync(user);
+        }
     }
 }

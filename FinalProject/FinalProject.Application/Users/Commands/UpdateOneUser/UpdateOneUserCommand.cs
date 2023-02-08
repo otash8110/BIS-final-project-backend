@@ -3,7 +3,7 @@ using MediatR;
 
 namespace FinalProject.Application.Users.Commands.UpdateOneUser
 {
-    public record UpdateOneUserCommand(string name, string surename, string companyName) : IRequest;
+    public record UpdateOneUserCommand(string email, string name, string surename, string companyName) : IRequest;
 
     public class UpdateOneUserCommandHandler : IRequestHandler<UpdateOneUserCommand>
     {
@@ -12,8 +12,10 @@ namespace FinalProject.Application.Users.Commands.UpdateOneUser
         {
             this.userService = userService;
         }
-        public Task<Unit> Handle(UpdateOneUserCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateOneUserCommand request, CancellationToken cancellationToken)
         {
+            await userService.UpdateUser(request.email, request.name, request.surename, request.companyName, cancellationToken);
+
             return Unit.Value;
         }
     }

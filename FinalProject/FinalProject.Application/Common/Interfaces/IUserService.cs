@@ -21,6 +21,6 @@ namespace FinalProject.Application.Common.Interfaces
 
         Task<UserDTO> GetUser(string email, CancellationToken token);
 
-        Task UpdateUser(string name, string surname, string companyName, CancellationToken token);
+        Task UpdateUser(string email, string name, string surname, string companyName, CancellationToken token);
     }
 }
