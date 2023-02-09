@@ -2,6 +2,7 @@
 using FinalProject.Infrastructure.Context;
 using FinalProject.Infrastructure.Identity;
 using FinalProject.Infrastructure.Identity.Interfaces;
+using FinalProject.Infrastructure.Interceptors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,8 @@ namespace FinalProject.Infrastructure
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,
             IConfiguration configuration)
         {
+            services.AddScoped<AuditableEntitySaveChangesInterceptor>();
+
             services.AddDbContext<AppDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("Default"),
