@@ -1,9 +1,15 @@
-﻿using FinalProject.Application.Users.Queries.GetUser;
+﻿using FinalProject.Application.Users.Commands.UpdateOneUser;
+using FinalProject.Application.Users.Queries.GetUser;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FinalProject.API.Controllers
 {
+    [ApiController]
+    [Route("api/v1/[controller]")]
+    [Authorize]
     public class UserController : Controller
     {
         private readonly IMediator mediator;
@@ -13,12 +19,13 @@ namespace FinalProject.API.Controllers
             this.mediator = mediator;
         }
 
-        [HttpGet("{email}")]
-        public async Task<IActionResult> GetUser(string email, CancellationToken cancellationToken)
+        [HttpGet]
+        public async Task<IActionResult> GetUser(CancellationToken cancellationToken)
         {
             try
             {
-                var result = await mediator.Send(new GetUserQuery(email), cancellationToken);
+                var userEmail = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var result = await mediator.Send(new GetUserQuery(userEmail), cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -27,10 +34,19 @@ namespace FinalProject.API.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> UpdateUser()
+        [HttpPut]
+        public async Task<IActionResult> UpdateUser(UpdateOneUserCommand cmd, CancellationToken token)
         {
-            return Ok();
+            try
+            {
+                await mediator.Send(cmd, token);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
