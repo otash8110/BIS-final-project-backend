@@ -1,8 +1,10 @@
 ﻿using FinalProject.Application.Common.Interfaces;
+using FinalProject.Core.Entities;
 using FinalProject.Infrastructure.Context;
 using FinalProject.Infrastructure.Identity;
 using FinalProject.Infrastructure.Identity.Interfaces;
 using FinalProject.Infrastructure.Interceptors;
+using FinalProject.Infrastructure.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -27,6 +29,7 @@ namespace FinalProject.Infrastructure
             services.AddTransient<ITokenService, TokenService>();
             services.AddScoped<AppDbContextInitializer>();
             services.AddTransient<IUserService, UserService>();
+            services.AddScoped<IBaseRepository<Product>, BaseRepository<Product>>();
 
             services
             .AddIdentityCore<ApplicationUser>()

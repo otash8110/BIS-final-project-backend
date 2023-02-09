@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using AutoMapper.Execution;
 using FinalProject.Application.Common.Interfaces;
 using FinalProject.Application.Common.Results;
-using FinalProject.Application.Users.Queries;
 using FinalProject.Application.Users.Queries.GetUser;
 using FinalProject.Core.Enums;
 using FinalProject.Core.Exceptions;
@@ -53,12 +51,12 @@ namespace FinalProject.Infrastructure.Identity
             };
 
             var savedAppUser = await userManager.CreateAsync(appUser, password);
-            var roles = new string[]
+            var roles = new List<string>()
             {
                 Roles.User.ToString(),
             };
 
-            if (role != Roles.User) roles.Append(role.ToString());
+            if (role != Roles.User && role != Roles.Admin) roles.Add(role.ToString());
 
             await userManager.AddToRolesAsync(appUser, roles);
 
