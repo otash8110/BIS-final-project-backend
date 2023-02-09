@@ -1,4 +1,5 @@
-﻿using FinalProject.Infrastructure.Identity;
+﻿using FinalProject.Core.Entities;
+using FinalProject.Infrastructure.Identity;
 using FinalProject.Infrastructure.Interceptors;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,8 @@ namespace FinalProject.Infrastructure.Context
         {
             this.interceptor = interceptor;
         }
+
+        public DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
