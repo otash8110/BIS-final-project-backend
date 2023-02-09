@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FinalProject.API.Services;
+using FinalProject.Application.Common.Interfaces;
 using FinalProject.Application.Common.Mapping;
 using FinalProject.Infrastructure.Identity;
 using FinalProject.Infrastructure.Mapping;
@@ -16,6 +18,10 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddAPIServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddSingleton<ICurrentUserService, CurrentUserService>();
+
+            services.AddHttpContextAccessor();
+
             var tokenSettings = configuration.GetSection("TokenSettings").Get<TokenSettings>();
             // Add services to the container.
 
