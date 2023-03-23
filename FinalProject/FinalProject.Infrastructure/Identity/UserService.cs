@@ -90,8 +90,11 @@ namespace FinalProject.Infrastructure.Identity
         {
             var user = await userManager.FindByEmailAsync(email);
             if (user == null) throw new UserNotFoundException(email);
+            user.Role = await userManager.GetRolesAsync(user);
 
-            return mapper.Map<UserDTO>(user);
+            var mappedUser = mapper.Map<UserDTO>(user);
+            mappedUser.Role = user.Role.First();
+            return mappedUser;
         }
 
         public async Task<LoginResult> LoginAsync(string email, string password)

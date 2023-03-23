@@ -1,4 +1,5 @@
-﻿using FinalProject.Application.Users.Queries.GetUser;
+﻿using FinalProject.Application.Products.Commands.CreateOneProduct;
+using FinalProject.Application.Users.Queries.GetUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,25 +9,30 @@ namespace FinalProject.API.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    [Authorize(Roles = "Manufacturer")]
+    [Authorize(Roles = "Manufacturer,Admin")]
     public class ProductController : Controller
     {
+        private readonly IMediator mediator;
+
+        public ProductController(IMediator mediator)
+        {
+            this.mediator = mediator;
+        }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProduct(CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateProduct(CreateOneProductCommand cmd, CancellationToken cancellationToken)
         {
-            //try
-            //{
-            //    var userEmail = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            //    var result = await mediator.Send(new GetUserQuery(userEmail), cancellationToken);
-            //    return Ok(result);
-            //}
-            //catch (Exception ex)
-            //{
-            //    return BadRequest(ex.Message);
-            //}
-
-            return Ok();
+            try
+            {
+                var userId = User.FindFirstValue("UserId");
+                cmd.UserId = userId;
+                var result = await mediator.Send(cmd, cancellationToken);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

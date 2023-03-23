@@ -9,6 +9,7 @@ namespace FinalProject.Application.Products.Commands.CreateOneProduct
         public string Name { get; set; }
         public string Description { get; set; }
         public string Rating { get; set; }
+        public string UserId { get; set; }
     }
 
     public class CreateOneProductCommandHandler : IRequestHandler<CreateOneProductCommand, int>
@@ -27,6 +28,7 @@ namespace FinalProject.Application.Products.Commands.CreateOneProduct
                 Name = request.Name,
                 Description = request.Description,
                 Rating = request.Rating,
+                UserId = request.UserId
             };
 
             return await productRepository.Add(product);

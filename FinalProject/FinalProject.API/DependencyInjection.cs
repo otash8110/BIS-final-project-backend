@@ -99,7 +99,7 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "JWTToken_Auth_API",
+                    Title = "UzExpoMarket API",
                     Version = "v1"
                 });
 

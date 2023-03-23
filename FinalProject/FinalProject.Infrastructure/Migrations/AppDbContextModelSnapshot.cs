@@ -48,6 +48,9 @@ namespace FinalProject.Infrastructure.Migrations
                     b.Property<string>("Rating")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Products");
