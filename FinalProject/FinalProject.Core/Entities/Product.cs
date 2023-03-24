@@ -1,4 +1,5 @@
 ﻿using FinalProject.Core.Common;
+using FinalProject.Core.Enums;
 
 namespace FinalProject.Core.Entities
 {
@@ -6,7 +7,7 @@ namespace FinalProject.Core.Entities
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Rating { get; set; }
+        public Rating Rating { get; set; }
 
         public string UserId { get; set; }
     }

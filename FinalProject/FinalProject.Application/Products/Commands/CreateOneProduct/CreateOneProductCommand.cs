@@ -1,5 +1,6 @@
 ﻿using FinalProject.Application.Common.Interfaces;
 using FinalProject.Core.Entities;
+using FinalProject.Core.Enums;
 using MediatR;
 
 namespace FinalProject.Application.Products.Commands.CreateOneProduct
@@ -8,7 +9,7 @@ namespace FinalProject.Application.Products.Commands.CreateOneProduct
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Rating { get; set; }
+        public Rating Rating { get; set; }
         public string UserId { get; set; }
     }
 
