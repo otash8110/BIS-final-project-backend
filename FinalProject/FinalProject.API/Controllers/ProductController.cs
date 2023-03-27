@@ -1,10 +1,9 @@
 ﻿using FinalProject.Application.Common.Interfaces;
 using FinalProject.Application.Products.Commands.CreateOneProduct;
-using FinalProject.Application.Users.Queries.GetUser;
+using FinalProject.Application.Products.Queries.GetProducts;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace FinalProject.API.Controllers
 {
@@ -23,11 +22,13 @@ namespace FinalProject.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProducts()
+        public async Task<IActionResult> GetProducts(CancellationToken cancellationToken)
         {
             try
             {
-
+                var user = currentUserService.UserId;
+                var result = await mediator.Send(new GetProductsQuery(user), cancellationToken);
+                return Ok(result);
             }
             catch (Exception ex)
             {
