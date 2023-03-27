@@ -9,7 +9,7 @@ namespace FinalProject.API.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    [Authorize(Roles = "Manufacturer,Admin")]
+    [Authorize(Roles = "Manufacturer,Admin", Policy = "IsRegistrationApproved")]
     public class ProductController : Controller
     {
         private readonly IMediator mediator;

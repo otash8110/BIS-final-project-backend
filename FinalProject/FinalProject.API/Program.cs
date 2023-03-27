@@ -2,6 +2,8 @@ using FinalProject.Infrastructure;
 using FinalProject.Application;
 using FinalProject.Infrastructure.Context;
 using FinalProject.API;
+using FinalProject.API.PolicyHandler;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAPIServices(builder.Configuration);
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
+
+
 
 var app = builder.Build();
 

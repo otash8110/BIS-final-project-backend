@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FinalProject.API.Policies;
+using FinalProject.API.PolicyHandler;
 using FinalProject.API.Services;
 using FinalProject.Application.Common.Interfaces;
 using FinalProject.Application.Common.Mapping;
@@ -6,7 +8,6 @@ using FinalProject.Infrastructure.Identity;
 using FinalProject.Infrastructure.Mapping;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -19,6 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddAPIServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
+            services.AddScoped<IAuthorizationHandler, IsRegisteredRequirementHandler>();
 
             services.AddHttpContextAccessor();
 
@@ -66,6 +68,11 @@ namespace Microsoft.Extensions.DependencyInjection
                 defaultAuthorizationPolicyBuilder =
                   defaultAuthorizationPolicyBuilder.RequireAuthenticatedUser();
                 options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
+
+                options.AddPolicy("IsRegistrationApproved", builder =>
+                {
+                    builder.AddRequirements(new IsRegisteredRequirement());
+                });
             });
 
 

@@ -97,6 +97,14 @@ namespace FinalProject.Infrastructure.Identity
             return mappedUser;
         }
 
+        public async Task<bool> IsUserRegistrationApproved(string email, CancellationToken token)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null) throw new UserNotFoundException(email);
+
+            return user.IsRegistrationApproved;
+        }
+
         public async Task<LoginResult> LoginAsync(string email, string password)
         {
             try

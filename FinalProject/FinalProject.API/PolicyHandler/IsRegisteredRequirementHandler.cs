@@ -14,11 +14,18 @@ namespace FinalProject.API.PolicyHandler
             this.userService = userService;
         }
 
-        protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, IsRegisteredRequirement requirement)
+        protected override async Task<Task> HandleRequirementAsync(AuthorizationHandlerContext context, IsRegisteredRequirement requirement)
         {
-            var userId = context.User.FindFirstValue("UserId");
+            var userEmail = context.User.FindFirstValue(ClaimTypes.Email);
 
-            userService.GetUser
+            var isApproved = await userService.IsUserRegistrationApproved(userEmail, CancellationToken.None);
+
+            if (isApproved)
+            {
+                context.Succeed(requirement);
+            }
+
+            return Task.CompletedTask;
         }
     }
 }

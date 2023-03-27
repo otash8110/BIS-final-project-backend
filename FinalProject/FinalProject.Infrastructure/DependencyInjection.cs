@@ -28,7 +28,7 @@ namespace FinalProject.Infrastructure
             services.Configure<TokenSettings>(configuration.GetSection("TokenSettings"));
             services.AddTransient<ITokenService, TokenService>();
             services.AddScoped<AppDbContextInitializer>();
-            services.AddTransient<IUserService, UserService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IBaseRepository<Product>, BaseRepository<Product>>();
 
             services
