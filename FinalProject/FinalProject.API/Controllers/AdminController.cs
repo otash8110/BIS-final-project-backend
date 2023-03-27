@@ -1,4 +1,5 @@
-﻿using FinalProject.Application.Products.Queries.GetUnregisteredProducts;
+﻿using FinalProject.Application.Products.Commands.ApproveProduct;
+using FinalProject.Application.Products.Queries.GetUnregisteredProducts;
 using FinalProject.Application.Users.Commands;
 using FinalProject.Application.Users.Queries;
 using MediatR;
@@ -59,12 +60,12 @@ namespace FinalProject.API.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<IActionResult> ApproveProduct(ApproveUserRegistrationCommand cmd, CancellationToken token)
+        public async Task<IActionResult> ApproveProduct(ApproveProductCommand cmd, CancellationToken token)
         {
             try
             {
                 var result = await mediator.Send(cmd, token);
-                await hubContext.Clients.User(cmd.email).SendAsync("UserRegistrationApproveNotification", "Your registration was approved");
+                //await hubContext.Clients.User(cmd.email).SendAsync("UserRegistrationApproveNotification", "Your registration was approved");
                 return Ok(result);
             }
             catch (Exception ex)
