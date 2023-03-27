@@ -5,6 +5,7 @@ namespace FinalProject.Application.Common.Interfaces
 {
     public interface IBaseRepository<T> where T : AuditableBaseEntity
     {
+        Task<IList<T>> GetAllAsync();
         Task<IEnumerable<T>> GetByFilter(Expression<Func<T, bool>> filter);
         Task<int> Add(T entity);
     }

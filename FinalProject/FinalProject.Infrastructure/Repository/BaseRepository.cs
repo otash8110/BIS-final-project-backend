@@ -23,6 +23,11 @@ namespace FinalProject.Infrastructure.Repository
             return entity.Id;
         }
 
+        public async Task<IList<T>> GetAllAsync()
+        {
+            return await context.Set<T>().ToListAsync();
+        }
+
         public async Task<IEnumerable<T>> GetByFilter(Expression<Func<T, bool>> filter)
         {
             var result = await context.Set<T>().Where(filter).ToListAsync();
