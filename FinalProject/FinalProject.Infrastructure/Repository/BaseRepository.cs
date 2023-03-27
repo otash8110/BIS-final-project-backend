@@ -1,6 +1,8 @@
 ﻿using FinalProject.Application.Common.Interfaces;
 using FinalProject.Core.Common;
 using FinalProject.Infrastructure.Context;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace FinalProject.Infrastructure.Repository
 {
@@ -19,6 +21,12 @@ namespace FinalProject.Infrastructure.Repository
             await context.SaveChangesAsync();
 
             return entity.Id;
+        }
+
+        public async Task<IEnumerable<T>> GetByFilter(Expression<Func<T, bool>> filter)
+        {
+            var result = await context.Set<T>().Where(filter).ToListAsync();
+            return result;
         }
     }
 }
