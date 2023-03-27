@@ -20,7 +20,7 @@ namespace FinalProject.Application.Products.Queries.GetProducts
 
         public async Task<List<ProductDTO>> Handle(GetProductsQuery request, CancellationToken cancellationToken)
         {
-            var result = await productRepository.GetByFilter(p => p.UserId == request.userId);
+            var result = await productRepository.GetByFilterAsync(p => p.UserId == request.userId);
 
             return mapper.Map<List<ProductDTO>>(result);
         }

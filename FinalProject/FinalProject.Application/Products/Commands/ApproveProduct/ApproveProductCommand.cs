@@ -17,7 +17,7 @@ namespace FinalProject.Application.Products.Commands.ApproveProduct
 
         public async Task<bool> Handle(ApproveProductCommand request, CancellationToken cancellationToken)
         {
-            var product = await productRepository.GetOne(request.productId);
+            var product = await productRepository.GetOneAsync(request.productId);
         }
     }
 }

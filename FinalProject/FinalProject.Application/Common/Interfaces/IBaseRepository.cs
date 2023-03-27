@@ -6,9 +6,9 @@ namespace FinalProject.Application.Common.Interfaces
     public interface IBaseRepository<T> where T : AuditableBaseEntity
     {
         Task<IList<T>> GetAllAsync();
-        Task<IEnumerable<T>> GetByFilter(Expression<Func<T, bool>> filter);
-        Task<int> Add(T entity);
-        Task<bool> Update(T entity);
-        Task<T> GetOne(int id);
+        Task<IEnumerable<T>> GetByFilterAsync(Expression<Func<T, bool>> filter);
+        Task<int> AddAsync(T entity);
+        Task<bool> UpdateAsync(T entity);
+        Task<T> GetOneAsync(int id);
     }
 }

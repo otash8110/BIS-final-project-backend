@@ -15,7 +15,7 @@ namespace FinalProject.Infrastructure.Repository
             this.context = context;
         }
 
-        public async Task<int> Add(T entity)
+        public async Task<int> AddAsync(T entity)
         {
             await context.Set<T>().AddAsync(entity);
             await context.SaveChangesAsync();
@@ -28,18 +28,18 @@ namespace FinalProject.Infrastructure.Repository
             return await context.Set<T>().ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetByFilter(Expression<Func<T, bool>> filter)
+        public async Task<IEnumerable<T>> GetByFilterAsync(Expression<Func<T, bool>> filter)
         {
             var result = await context.Set<T>().Where(filter).ToListAsync();
             return result;
         }
 
-        public async Task<T> GetOne(int id)
+        public async Task<T> GetOneAsync(int id)
         {
             return await context.Set<T>().Where(i => i.Id == id).FirstAsync();
         }
 
-        public async Task<bool> Update(T entity)
+        public async Task<bool> UpdateAsync(T entity)
         {
             context.Set<T>().Update(entity);
             await context.SaveChangesAsync();

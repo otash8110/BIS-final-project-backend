@@ -34,7 +34,7 @@ namespace FinalProject.Application.Products.Commands.CreateOneProduct
                 UserId = request.UserId
             };
 
-            return await productRepository.Add(product);
+            return await productRepository.AddAsync(product);
         }
     }
 }
