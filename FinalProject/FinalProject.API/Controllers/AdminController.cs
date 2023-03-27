@@ -1,4 +1,5 @@
-﻿using FinalProject.Application.Users.Commands;
+﻿using FinalProject.Application.Products.Queries.GetUnregisteredProducts;
+using FinalProject.Application.Users.Commands;
 using FinalProject.Application.Users.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +10,7 @@ namespace FinalProject.API.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly IMediator mediator;
@@ -47,6 +49,13 @@ namespace FinalProject.API.Controllers
                 return BadRequest(ex.Message);
             }
 
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetUnregisteredProducts(CancellationToken token)
+        {
+            var result = await mediator.Send(new GetUnregisteredProductsQuery(), token);
+            return Ok(result);
         }
     }
 }

@@ -11,6 +11,8 @@ namespace FinalProject.API.Services
             this.httpContextAccessor = httpContextAccessor;
         }
 
-        public string UserId => httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+        public string UserId => httpContextAccessor.HttpContext?.User?.FindFirstValue("UserId");
+
+        public string UserEmail => httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
     }
 }
