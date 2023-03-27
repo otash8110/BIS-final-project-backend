@@ -1,4 +1,5 @@
-﻿using FinalProject.Application.Products.Commands.CreateOneProduct;
+﻿using FinalProject.Application.Common.Interfaces;
+using FinalProject.Application.Products.Commands.CreateOneProduct;
 using FinalProject.Application.Users.Queries.GetUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -13,10 +14,25 @@ namespace FinalProject.API.Controllers
     public class ProductController : Controller
     {
         private readonly IMediator mediator;
+        private readonly ICurrentUserService currentUserService;
 
-        public ProductController(IMediator mediator)
+        public ProductController(IMediator mediator, ICurrentUserService currentUserService)
         {
             this.mediator = mediator;
+            this.currentUserService = currentUserService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetProducts()
+        {
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
@@ -24,8 +40,7 @@ namespace FinalProject.API.Controllers
         {
             try
             {
-                var userId = User.FindFirstValue("UserId");
-                cmd.UserId = userId;
+                cmd.UserId = currentUserService.UserId;
                 var result = await mediator.Send(cmd, cancellationToken);
                 return Ok(result);
             }
