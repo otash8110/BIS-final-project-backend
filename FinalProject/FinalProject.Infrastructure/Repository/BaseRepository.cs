@@ -33,5 +33,18 @@ namespace FinalProject.Infrastructure.Repository
             var result = await context.Set<T>().Where(filter).ToListAsync();
             return result;
         }
+
+        public async Task<T> GetOne(int id)
+        {
+            return await context.Set<T>().Where(i => i.Id == id).FirstAsync();
+        }
+
+        public async Task<bool> Update(T entity)
+        {
+            context.Set<T>().Update(entity);
+            await context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

@@ -57,5 +57,21 @@ namespace FinalProject.API.Controllers
             var result = await mediator.Send(new GetUnregisteredProductsQuery(), token);
             return Ok(result);
         }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ApproveProduct(ApproveUserRegistrationCommand cmd, CancellationToken token)
+        {
+            try
+            {
+                var result = await mediator.Send(cmd, token);
+                await hubContext.Clients.User(cmd.email).SendAsync("UserRegistrationApproveNotification", "Your registration was approved");
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
     }
 }

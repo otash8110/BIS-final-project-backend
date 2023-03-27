@@ -8,5 +8,7 @@ namespace FinalProject.Application.Common.Interfaces
         Task<IList<T>> GetAllAsync();
         Task<IEnumerable<T>> GetByFilter(Expression<Func<T, bool>> filter);
         Task<int> Add(T entity);
+        Task<bool> Update(T entity);
+        Task<T> GetOne(int id);
     }
 }
