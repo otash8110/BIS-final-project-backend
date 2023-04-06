@@ -1,5 +1,7 @@
 ﻿using FinalProject.Application.Common.Interfaces;
 using FinalProject.Application.Products.Commands.CreateOneProduct;
+using FinalProject.Application.Products.Commands.UpdateOneProduct;
+using FinalProject.Application.Products.Queries.GetOneProduct;
 using FinalProject.Application.Products.Queries.GetProducts;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -36,12 +38,40 @@ namespace FinalProject.API.Controllers
             }
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetProduct(int id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await mediator.Send(new GetOneProductQuery(id), cancellationToken);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateProduct(CreateOneProductCommand cmd, CancellationToken cancellationToken)
         {
             try
             {
                 cmd.UserId = currentUserService.UserId;
+                var result = await mediator.Send(cmd, cancellationToken);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateProduct(UpdateOneProductCommand cmd, CancellationToken cancellationToken)
+        {
+            try
+            {
                 var result = await mediator.Send(cmd, cancellationToken);
                 return Ok(result);
             }
