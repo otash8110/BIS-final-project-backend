@@ -16,18 +16,22 @@ builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 
+
+app.UseSwagger();
+app.UseSwaggerUI();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
 
-    using var scope = app.Services.CreateScope();
 
-    var initializer = scope.ServiceProvider.GetRequiredService<AppDbContextInitializer>();
-    await initializer.InitializeAsync();
-    await initializer.SeedDatabase();
+
 }
+
+using var scope = app.Services.CreateScope();
+
+var initializer = scope.ServiceProvider.GetRequiredService<AppDbContextInitializer>();
+await initializer.InitializeAsync();
+await initializer.SeedDatabase();
 
 app.UseHttpsRedirection();
 

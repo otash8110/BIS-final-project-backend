@@ -92,7 +92,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 x.AddPolicy("DefaultPolicy",
                     policy =>
                     {
-                        policy.WithOrigins("http://localhost:5173", "http://localhost:8080")
+                        policy.WithOrigins("http://localhost:5173", "http://localhost:8081")
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });
