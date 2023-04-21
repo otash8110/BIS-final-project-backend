@@ -27,16 +27,12 @@ namespace FinalProject.Application.Products.Commands.UpdateOneProduct
             var product = (await productRepository.GetByFilterAsync(p => p.Id == request.ProductId)).First();
             if (product == null) throw new ArgumentOutOfRangeException("Product not found or was deleted");
 
-            var updatedProduct = new Product
-            {
-                Id = product.Id,
-                Name = request.Name,
-                Description = request.Description,
-                Rating = request.Rating,
-                UserId = product.UserId
-            };
+            product.Name = request.Name;
+            product.Description = request.Description;
+            product.Rating = request.Rating;
 
-            return await productRepository.UpdateAsync(updatedProduct);
+
+            return await productRepository.UpdateAsync(product);
         }
     }
 }
