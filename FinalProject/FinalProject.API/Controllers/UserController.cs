@@ -48,5 +48,19 @@ namespace FinalProject.API.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("{email}")]
+        public async Task<IActionResult> GetUserByEmail(string email, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await mediator.Send(new GetUserQuery(email), cancellationToken);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

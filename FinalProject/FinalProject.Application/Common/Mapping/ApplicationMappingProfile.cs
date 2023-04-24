@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FinalProject.Application.Products.Queries.GetOneProduct;
+using FinalProject.Application.Products.Queries.GetOneProductWithManufacturer;
 using FinalProject.Application.Products.Queries.GetProducts;
 using FinalProject.Application.Products.Queries.GetUnregisteredProducts;
 using FinalProject.Application.Search.Queries.GetSearchProducts;
@@ -15,6 +16,7 @@ namespace FinalProject.Application.Common.Mapping
             CreateMap<Product, UnregisteredProductsDTO>();
             CreateMap<Product, OneProductDTO>();
             CreateMap<Product, SearchProductDTO>();
+            CreateMap<Product, OneProductWithManufacturerDTO>();
         }
     }
 }

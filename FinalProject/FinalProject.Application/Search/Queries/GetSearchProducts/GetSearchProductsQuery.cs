@@ -5,7 +5,7 @@ using MediatR;
 
 namespace FinalProject.Application.Search.Queries.GetSearchProducts
 {
-    public record GetSearchProductsQuery(): IRequest<List<SearchProductDTO>>;
+    public record GetSearchProductsQuery(string productName): IRequest<List<SearchProductDTO>>;
 
     public class GetSearchProductsQueryHandler : IRequestHandler<GetSearchProductsQuery, List<SearchProductDTO>>
     {
@@ -20,7 +20,7 @@ namespace FinalProject.Application.Search.Queries.GetSearchProducts
 
         public async Task<List<SearchProductDTO>> Handle(GetSearchProductsQuery request, CancellationToken cancellationToken)
         {
-            var products = await productRepository.GetAllAsync();
+            var products = await productRepository.GetByFilterAsync(product => product.Name.Contains(request.productName));
 
             return mapper.Map<List<SearchProductDTO>>(products);
         }

@@ -11,7 +11,7 @@ namespace FinalProject.API.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    [Authorize(Roles = "Distributor,Admin", Policy = "IsRegistrationApproved")]
+    [Authorize(Roles = "Distributor,Manufacturer,Admin", Policy = "IsRegistrationApproved")]
     public class SearchController : Controller
     {
         private readonly IMediator mediator;
@@ -24,11 +24,25 @@ namespace FinalProject.API.Controllers
         }
 
         [HttpGet("[action]")]
-        public async Task<IActionResult> Products(CancellationToken cancellationToken)
+        public async Task<IActionResult> Products([FromQuery] GetSearchProductsQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var result = await mediator.Send(new GetSearchProductsQuery(), cancellationToken);
+                var result = await mediator.Send(query, cancellationToken);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetAllProducts(CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await mediator.Send(new GetAllSearchProducts(), cancellationToken);
                 return Ok(result);
             }
             catch (Exception ex)
