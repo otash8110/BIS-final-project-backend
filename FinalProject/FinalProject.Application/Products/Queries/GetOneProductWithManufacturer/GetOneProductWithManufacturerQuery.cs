@@ -35,7 +35,7 @@ namespace FinalProject.Application.Products.Queries.GetOneProductWithManufacture
             {
                 if (offer != null)
                 {
-                    if (offer.DistributorEmail == currentUserService.UserId)
+                    if (offer.DistributorEmail == currentUserService.UserEmail)
                     {
                         mappedProduct.isOfferMade = true;
                         break;

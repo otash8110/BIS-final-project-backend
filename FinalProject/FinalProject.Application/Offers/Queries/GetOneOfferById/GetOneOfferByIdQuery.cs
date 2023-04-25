@@ -39,7 +39,7 @@ namespace FinalProject.Application.Offers.Queries.GetOneOfferById
                     }
                 case Roles.Distributor:
                     {
-                        if (currentUserService.UserId != offer.DistributorEmail)
+                        if (currentUserService.UserEmail != offer.DistributorEmail)
                         {
                             throw new UnauthorizedAccessException("You're not allowed to view this source");
                         }
