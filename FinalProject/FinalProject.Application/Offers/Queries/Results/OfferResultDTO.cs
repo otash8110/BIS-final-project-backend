@@ -2,6 +2,7 @@
 {
     public class OfferResultDTO
     {
+        public int Id { get; set; }
         public string Message { get; set; }
         public string DistributorEmail { get; set; }
         public string ManufacturerEmail { get; set; }

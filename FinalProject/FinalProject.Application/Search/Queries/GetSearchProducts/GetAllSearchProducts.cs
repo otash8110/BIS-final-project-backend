@@ -20,7 +20,7 @@ namespace FinalProject.Application.Search.Queries.GetSearchProducts
 
         public async Task<List<SearchProductDTO>> Handle(GetAllSearchProducts request, CancellationToken cancellationToken)
         {
-            var products = await productRepository.GetAllAsync();
+            var products = await productRepository.GetByFilterAsync(p => p.IsApproved);
 
             return mapper.Map<List<SearchProductDTO>>(products);
         }

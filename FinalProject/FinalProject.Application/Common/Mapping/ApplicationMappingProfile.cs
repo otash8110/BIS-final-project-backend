@@ -18,7 +18,7 @@ namespace FinalProject.Application.Common.Mapping
             CreateMap<Product, OneProductDTO>();
             CreateMap<Product, SearchProductDTO>();
             CreateMap<Product, OneProductWithManufacturerDTO>();
-            CreateMap<Offer, OfferResultDTO>();
+            CreateMap<Offer, OfferResultDTO>().ForMember(o => o.CreatedTime, opt => opt.MapFrom(o => o.Created));
         }
     }
 }
