@@ -30,6 +30,7 @@ namespace FinalProject.Infrastructure
             services.AddScoped<AppDbContextInitializer>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IBaseRepository<Product>, BaseRepository<Product>>();
+            services.AddScoped<IBaseRepository<Offer>, BaseRepository<Offer>>();
 
             services
             .AddIdentityCore<ApplicationUser>()

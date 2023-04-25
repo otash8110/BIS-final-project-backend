@@ -14,8 +14,4 @@
     <ProjectReference Include="..\FinalProject.Core\FinalProject.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Offers\" />
-  </ItemGroup>
-
 </Project>

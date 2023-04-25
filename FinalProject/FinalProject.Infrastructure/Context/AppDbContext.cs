@@ -18,6 +18,7 @@ namespace FinalProject.Infrastructure.Context
         }
 
         public DbSet<Product> Products { get; set; }
+        public DbSet<Offer> Offers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

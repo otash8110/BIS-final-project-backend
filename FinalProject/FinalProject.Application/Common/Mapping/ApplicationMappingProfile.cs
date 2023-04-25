@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FinalProject.Application.Offers.Queries.Results;
 using FinalProject.Application.Products.Queries.GetOneProduct;
 using FinalProject.Application.Products.Queries.GetOneProductWithManufacturer;
 using FinalProject.Application.Products.Queries.GetProducts;
@@ -17,6 +18,7 @@ namespace FinalProject.Application.Common.Mapping
             CreateMap<Product, OneProductDTO>();
             CreateMap<Product, SearchProductDTO>();
             CreateMap<Product, OneProductWithManufacturerDTO>();
+            CreateMap<Offer, OfferResultDTO>();
         }
     }
 }

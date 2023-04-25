@@ -9,6 +9,7 @@ namespace FinalProject.Application.Products.Queries.GetOneProductWithManufacture
         public string Description { get; set; }
         public Rating Rating { get; set; }
         public string UserId { get; set; }
-        public string CreatedBy { get; set; } 
+        public string CreatedBy { get; set; }
+        public bool isOfferMade { get; set; } = false;
     }
 }
